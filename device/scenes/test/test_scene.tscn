@@ -1,0 +1,66 @@
+[gd_scene load_steps=2 format=1]
+
+[ext_resource path="res://globals/item.gd" type="Script" id=1]
+
+[node name="test_scene" type="Node2D"]
+
+[node name="map_vendor" type="Button" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 216.0
+margin/top = 137.0
+margin/right = 457.0
+margin/bottom = 286.0
+toggle_mode = false
+enabled_focus_mode = 0
+shortcut = null
+text = "MAP VENDOR"
+flat = false
+script/script = ExtResource( 1 )
+active = true
+global_id = "map_vendor"
+talk_animation = "talk"
+events_path = "res://scenes/test/map_vendor.esc"
+
+[node name="dialog_pos" type="Position2D" parent="map_vendor"]
+
+transform/pos = Vector2( 500.215, 287.95 )
+
+[node name="money" type="Button" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 948.0
+margin/top = 166.0
+margin/right = 1093.0
+margin/bottom = 224.0
+toggle_mode = false
+enabled_focus_mode = 0
+shortcut = null
+text = "$"
+flat = false
+script/script = ExtResource( 1 )
+active = true
+global_id = "money"
+talk_animation = "talk"
+events_path = "res://scenes/test/money.esc"
+
+[node name="player" type="Node2D" parent="."]
+
+transform/pos = Vector2( 678.731, 600.81 )
+script/script = ExtResource( 1 )
+active = true
+global_id = "player"
+talk_animation = "talk"
+events_path = ""
+
+[connection signal="pressed" from="map_vendor" to="map_vendor" method="interact" binds= [ false ]]
+
+[connection signal="pressed" from="money" to="money" method="interact" binds= [ false ]]
+
+
