@@ -18,9 +18,9 @@ func _fixed_process(delta):
 		move_player()
 		
 func _input(event):
-	if(canInteract and event.is_action_pressed("interact")):
+	if(canInteract and event.is_action_pressed("use")):
 		print("Interacting with " + target.get_name())
-		
+		target.interact(null)
 		#get_node("../../DialogueParser").init_dialogue(target.get_name())
 		#canMove = false
 		
