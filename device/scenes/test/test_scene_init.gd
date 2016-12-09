@@ -9,5 +9,3 @@ func _ready():
 		var args = Array([currNode])
 		area2DNode.connect("body_enter", player, "_on_Area2D_body_enter", args)
 		area2DNode.connect("body_exit", player, "_on_Area2D_body_exit", args)
-
-
