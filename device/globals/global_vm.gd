@@ -207,7 +207,8 @@ func get_global(name):
 
 func set_global(name, val):
 	globals[name] = val
-	emit_signal("global_changed", name)
+	#BUG: Cannot emit non-existing signal
+	#emit_signal("global_changed", name)
 
 func eval_value(name):
 	var t = typeof(name)

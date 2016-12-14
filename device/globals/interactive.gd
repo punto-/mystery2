@@ -78,13 +78,18 @@ func set_active(p_active):
 	active = p_active
 	if p_active:
 		show()
+		disable_collider(false)
 	else:
 		hide()
+		disable_collider(true)
+		
+func disable_collider(p_active):
+	if has_node("StaticBody2D/CollisionShape2D"):
+		get_node("StaticBody2D/CollisionShape2D").set_trigger(p_active)
+		get_node("../../Player/KinematicBody2D").target = null
 
 func get_active():
 	return active
-	#return is_visible()
-
 
 func _find_sprites(p = null):
 	if p.is_type("Sprite") || p.is_type("AnimatedSprite") || p.is_type("TextureFrame") || p.is_type("TextureButton"):
