@@ -38,7 +38,21 @@ func update_slots(parent, slots, first, current, cursor):
 		cursor.show()
 		cursor.set_global_pos(slots[s])
 
+func find_first_item():
+	if get_node("i").get_child_count() > 0:
+		cur_item = 0
+		cur_clue = -1
+	elif get_node("c").get_child_count() > 0:
+		cur_clue = 0
+		cur_item = -1
+
+	else:
+		cur_item = -1
+		cur_clue = -1
+
 func update_pages():
+	if cur_item == -1 && cur_clue == -1:
+		find_first_item()
 	update_slots(get_node("i"), item_slots, first_item, cur_item, item_cursor)
 	update_slots(get_node("c"), clue_slots, first_clue, cur_clue, clue_cursor)
 
@@ -54,10 +68,11 @@ func global_changed(name):
 
 func instance_item(p_item):
 	var node = item.duplicate()
-	node.set_texture(load(p_item.icon))
+	node.get_node("icon").set_texture(load(p_item.icon))
 	node.set_name(p_item.id)
 	node.set_meta("item", p_item)
 	get_node("i").add_child(node)
+	node.hide()
 
 func instance_clue(p_clue):
 	var node = clue.duplicate
@@ -65,6 +80,7 @@ func instance_clue(p_clue):
 	node.get_node("title").set_text(p_clue.title)
 	node.set_meta("clue", p_clue)
 	get_node("c").add_child(node)
+	node.hide()
 
 func remove_item(path):
 	if has_node(path):
@@ -140,15 +156,15 @@ func move_cursor(dir):
 		if cur_item != -1:
 			cur_item += item_cols * dir.y
 			if cur_item < 0:
-				cur_item += it_count
+				cur_item = it_count - 1
 			elif cur_item >= it_count:
-				cur_item -= it_count
+				cur_item = 0
 		if cur_clue != -1:
 			cur_clue += dir.y
 			if cur_clue < 0:
-				cur_clue += clue_count
+				cur_clue = clue_count - 1
 			elif cur_clue >= clue_count:
-				cur_clue -= clue_count
+				cur_clue = 0
 
 	elif dir.x != 0:
 		# todo: figure out the right way to switch areas
@@ -209,8 +225,5 @@ func _ready():
 	inventory = preload("res://game/inventory.gd")
 
 	vm.connect("global_changed", self, "global_changed")
-
-	get_node("i").hide()
-	get_node("c").hide()
 
 	find_slots()
