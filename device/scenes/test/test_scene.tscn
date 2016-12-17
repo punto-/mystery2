@@ -101,6 +101,9 @@ events_path = "res://scenes/test/map_vendor.esc"
 
 [node name="player" parent="." instance=ExtResource( 5 )]
 
+global_id = "player"
+
 [connection signal="pressed" from="map_vendor" to="map_vendor" method="interact" binds= [ false ]]
 
 
+[editable path="player"]

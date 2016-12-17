@@ -12,6 +12,7 @@ var ui_stack = []
 var window_size = Vector2()
 
 var current_scene
+var current_player
 
 var vm
 
@@ -51,8 +52,15 @@ func _input(event):
 		hud_stack[hud_stack.size()-1].input(event)
 
 	else:
-		# give event to main character? or to current_scene?
-		pass
+		if event.is_action("inventory_toggle"):
+			if event.is_pressed() && !event.is_echo():
+				inventory_open()
+
+		elif current_player != null:
+			current_player.input(event)
+
+func inventory_open():
+	pass # todo
 
 func inventory_set(name, p_enabled):
 	# maybe not necessary? it can be global flags
@@ -63,6 +71,9 @@ func change_scene(params, context):
 
 func set_current_scene(p_scene):
 	current_scene = p_scene
+
+func set_current_player(p_player):
+	current_player = p_player
 
 func check_screen():
 	var vs = OS.get_video_mode_size()

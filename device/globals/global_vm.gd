@@ -207,8 +207,7 @@ func get_global(name):
 
 func set_global(name, val):
 	globals[name] = val
-	#BUG: Cannot emit non-existing signal
-	#emit_signal("global_changed", name)
+	emit_signal("global_changed", name)
 
 func eval_value(name):
 	var t = typeof(name)
@@ -357,5 +356,9 @@ func _ready():
 	level = preload("res://globals/vm_level.gd").new()
 	level.set_vm(self)
 
+	add_user_signal("global_changed", ["name"])
+	add_user_signal("game_paused", ["paused"])
+
 	set_process(true)
+
 

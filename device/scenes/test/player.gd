@@ -1,8 +1,9 @@
-extends "res://globals/item.gd" #KinematicBody2D
+extends "res://globals/interactive.gd"
 
 var speed = 3
 var move_direction = Vector2(0, 0)
 var target
+var area
 
 var inventory = []
 
@@ -10,19 +11,25 @@ var canMove = true
 var canInteract = false
 
 func _ready():
-    set_process_input(true)
-    set_fixed_process(true)
+	set_process_input(true)
+	set_fixed_process(true)
+	vm.game.set_current_player(self)
+	area = get_node("area")
 
 func _fixed_process(delta):
 	if(vm.can_interact()):
 		move_player()
 		
-func _input(event):
-	if(vm.can_interact() and target != null
-		 and event.is_action_pressed("use")):
-			target.interact(null)
-		#if(inventory.find(target.get_name()) < 0):
-		#	inventory.append(target.get_name())
+func input(event):
+	if(vm.can_interact() and event.is_action_pressed("use")):
+		var bodies = area.get_overlapping_bodies()
+		for body in bodies:
+			if body == self:
+				continue
+			var parent = body.get_parent()
+			if parent extends preload("res://globals/interactive.gd") && parent.get_active():
+				parent.interact(null)
+				break
 
 func move_player():
 	move_direction = Vector2(0,0)
@@ -37,7 +44,8 @@ func move_player():
 	move(move_direction.normalized() * speed)
 
 func _on_Area2D_body_enter(body, obj):
-	if(body.get_parent().get_name() == "Player" and obj.get_active()):
+	printt("body enter ", body, obj, obj == self)
+	if(body == self and obj.get_active()):
 		target = obj
 	
 func _on_Area2D_body_exit(body, obj):

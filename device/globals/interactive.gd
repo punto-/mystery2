@@ -4,6 +4,7 @@ var vm
 var animation
 
 var sprites = []
+var shapes = []
 
 var anim_scale_override
 var anim_notify
@@ -78,16 +79,17 @@ func set_active(p_active):
 	active = p_active
 	if p_active:
 		show()
-		disable_collider(false)
 	else:
 		hide()
-		disable_collider(true)
-		
-func disable_collider(p_active):
-	if has_node("StaticBody2D/CollisionShape2D"):
-		get_node("StaticBody2D/CollisionShape2D").set_trigger(p_active)
-		get_node("../../Player/KinematicBody2D").target = null
 
+	set_trigger_shapes(p_active)
+
+func set_trigger_shapes(p_active):
+	printt("set trigger shapes ", shapes.size())
+	for shape in shapes:
+		printt("shape ", shape.get_name(), p_active)
+		shape.set_trigger(!p_active)
+		
 func get_active():
 	return active
 
@@ -97,8 +99,18 @@ func _find_sprites(p = null):
 	for i in range(0, p.get_child_count()):
 		_find_sprites(p.get_child(i))
 
+func _find_shapes(p = null):
+	if p == null:
+		p = self
+	if p.is_type("CollisionShape2D"):
+		shapes.push_back(p)
+	for i in range(0, p.get_child_count()):
+		_find_shapes(p.get_child(i))
+
+
 func _ready():
 	_find_sprites(self)
+	_find_shapes(self)
 
 	if get_tree().is_editor_hint():
 		return
