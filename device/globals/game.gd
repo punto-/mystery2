@@ -81,7 +81,6 @@ func check_screen():
 	get_tree().get_root().set_global_canvas_transform(m)
 
 func add_hud(p_node):
-	hud_layer.add_child(p_node)
 	hud_stack.push_back(p_node)
 
 func remove_hud(p_node):

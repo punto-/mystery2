@@ -9,6 +9,7 @@ func say(params, callback):
 	type = type + Globals.get("platform/dialog_type_suffix")
 	var inst = get_resource(type).instance()
 	var z = inst.get_z()
+	get_node("/root/game").hud_layer.add_child(inst)
 	get_node("/root/game").add_hud(inst)
 	var intro = true
 	var outro = true
