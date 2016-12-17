@@ -1,11 +1,10 @@
-[gd_scene load_steps=10 format=1]
+[gd_scene load_steps=8 format=1]
 
 [ext_resource path="res://scenes/test/test_scene_init.gd" type="Script" id=1]
 [ext_resource path="res://scenes/test/Grass.png" type="Texture" id=2]
 [ext_resource path="res://scenes/test/Money.png" type="Texture" id=3]
 [ext_resource path="res://globals/item.gd" type="Script" id=4]
-[ext_resource path="res://scenes/test/player.gd" type="Script" id=5]
-[ext_resource path="res://scenes/test/PlayerSprite.png" type="Texture" id=6]
+[ext_resource path="res://scenes/test/player.tscn" type="PackedScene" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -13,11 +12,6 @@ custom_solver_bias = 0.0
 extents = Vector2( 10, 10 )
 
 [sub_resource type="RectangleShape2D" id=2]
-
-custom_solver_bias = 0.0
-extents = Vector2( 10, 10 )
-
-[sub_resource type="RectangleShape2D" id=3]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10, 10 )
@@ -105,64 +99,7 @@ global_id = "map_vendor"
 talk_animation = "talk"
 events_path = "res://scenes/test/map_vendor.esc"
 
-[node name="Player" type="Node" parent="."]
-
-[node name="KinematicBody2D" type="KinematicBody2D" parent="Player"]
-
-transform/pos = Vector2( 640.442, 360.387 )
-transform/scale = Vector2( 1, 0.9375 )
-input/pickable = false
-shapes/0/shape = SubResource( 3 )
-shapes/0/transform = Matrix32( 5, 0, 0, 10, 0, 0 )
-shapes/0/trigger = false
-collision/layers = 1
-collision/mask = 1
-collision/margin = 0.08
-script/script = ExtResource( 5 )
-active = true
-global_id = ""
-talk_animation = "talk"
-events_path = ""
-
-[node name="Camera2D" type="Camera2D" parent="Player/KinematicBody2D"]
-
-anchor_mode = 1
-rotating = false
-current = true
-zoom = Vector2( 1, 1 )
-limit/left = -10000000
-limit/top = -10000000
-limit/right = 10000000
-limit/bottom = 10000000
-drag_margin/h_enabled = true
-drag_margin/v_enabled = true
-smoothing/enable = false
-smoothing/speed = 5.0
-drag_margin/left = 0.2
-drag_margin/top = 0.2
-drag_margin/right = 0.2
-drag_margin/bottom = 0.2
-
-[node name="Sprite" type="Sprite" parent="Player/KinematicBody2D"]
-
-texture = ExtResource( 6 )
-script/script = ExtResource( 4 )
-active = true
-global_id = "player"
-talk_animation = "talk"
-events_path = ""
-
-[node name="dialog_pos" type="Position2D" parent="Player/KinematicBody2D/Sprite"]
-
-transform/pos = Vector2( 7.77386, -161.918 )
-transform/scale = Vector2( 1, 1.06667 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/KinematicBody2D"]
-
-transform/scale = Vector2( 5, 10 )
-shape = SubResource( 3 )
-trigger = false
-_update_shape_index = 0
+[node name="player" parent="." instance=ExtResource( 5 )]
 
 [connection signal="pressed" from="map_vendor" to="map_vendor" method="interact" binds= [ false ]]
 
