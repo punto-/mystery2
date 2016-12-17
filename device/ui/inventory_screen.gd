@@ -1,13 +1,12 @@
 var vm
+var game
 
 var item
 var clue
 
-var instances
-
 var inventory
 
-var cur_item = 0
+var cur_item = -1
 var first_item = 0
 
 var cur_clue = -1
@@ -87,8 +86,8 @@ func check_instances(list, prefix):
 
 
 func update_items():
-	check_intances(inventory.items, "i/")
-	check_intances(inventory.clues, "c/")
+	check_instances(inventory.items, "i/")
+	check_instances(inventory.clues, "c/")
 
 	if get_node("i").get_child_count() == 0:
 		cur_item = -1
@@ -196,6 +195,7 @@ func open():
 
 func _ready():
 
+	game = get_node("/root/game")
 	vm = get_node("/root/vm")
 
 	item = get_node("item")
@@ -205,8 +205,6 @@ func _ready():
 
 	item_cursor = get_node("item_cursor")
 	clue_cursor = get_node("clue_cursor")
-
-	instances = get_node("instances")
 
 	inventory = preload("res://game/inventory.gd")
 

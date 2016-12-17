@@ -27,6 +27,11 @@ const state_jump = 5
 
 var last_event_id = 0
 
+var ui_active = false
+
+func set_ui_active(p_active):
+	ui_active = p_active
+
 func add_level(p_level, p_root, p_task):
 	tasks[task_current].stack.push_back(instance_level(p_level, null, p_root, p_task))
 	return state_call
@@ -309,7 +314,7 @@ func check_timers(time):
 			timers.remove(i)
 
 func can_interact():
-	return tasks.size() == 0
+	return tasks.size() == 0 && !ui_active
 
 func check_event_queue(time):
 	for e in event_queue:

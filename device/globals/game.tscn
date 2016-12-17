@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=1]
+[gd_scene load_steps=7 format=1]
 
 [ext_resource path="res://globals/game.gd" type="Script" id=1]
-[ext_resource path="res://globals/dialog_player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://ui/dialog_default.tscn" type="PackedScene" id=3]
-[ext_resource path="res://globals/speech_player.tscn" type="PackedScene" id=4]
-[ext_resource path="res://ui/speech_default.tscn" type="PackedScene" id=5]
+[ext_resource path="res://ui/inventory.tscn" type="PackedScene" id=2]
+[ext_resource path="res://globals/dialog_player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://ui/dialog_default.tscn" type="PackedScene" id=4]
+[ext_resource path="res://globals/speech_player.tscn" type="PackedScene" id=5]
+[ext_resource path="res://ui/speech_default.tscn" type="PackedScene" id=6]
 
 [node name="game" type="Node"]
 
@@ -17,6 +18,10 @@ offset = Vector2( 0, 0 )
 rotation = 0.0
 scale = Vector2( 1, 1 )
 
+[node name="inventory" parent="hud_layer" instance=ExtResource( 2 )]
+
+visibility/visible = false
+
 [node name="ui_layer" type="CanvasLayer" parent="."]
 
 layer = 1
@@ -24,12 +29,12 @@ offset = Vector2( 0, 0 )
 rotation = 0.0
 scale = Vector2( 1, 1 )
 
-[node name="dialog_player" parent="." instance=ExtResource( 2 )]
+[node name="dialog_player" parent="." instance=ExtResource( 3 )]
 
-resources = [ StringArray( "default" ), [ ExtResource( 3 ) ] ]
+resources = [ StringArray( "default" ), [ ExtResource( 4 ) ] ]
 
-[node name="speech_player" parent="." instance=ExtResource( 4 )]
+[node name="speech_player" parent="." instance=ExtResource( 5 )]
 
-resources = [ StringArray( "default" ), [ ExtResource( 5 ) ] ]
+resources = [ StringArray( "default" ), [ ExtResource( 6 ) ] ]
 
 

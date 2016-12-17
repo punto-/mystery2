@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=1]
 
-[ext_resource path="res://scenes/test/test_scene_init.gd" type="Script" id=1]
+[ext_resource path="res://globals/scene.gd" type="Script" id=1]
 [ext_resource path="res://scenes/test/Grass.png" type="Texture" id=2]
 [ext_resource path="res://scenes/test/Money.png" type="Texture" id=3]
 [ext_resource path="res://globals/item.gd" type="Script" id=4]

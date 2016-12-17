@@ -60,7 +60,7 @@ func _input(event):
 			current_player.input(event)
 
 func inventory_open():
-	pass # todo
+	hud_layer.get_node("inventory").open()
 
 func inventory_set(name, p_enabled):
 	# maybe not necessary? it can be global flags
@@ -93,12 +93,14 @@ func check_screen():
 
 func add_hud(p_node):
 	hud_stack.push_back(p_node)
+	vm.set_ui_active(true)
 
 func remove_hud(p_node):
 	if hud_stack.size() == 0 || hud_stack[hud_stack.size()-1] != p_node:
 		print("warning: removing node from hud which is not at the top ", p_node.get_path())
 
 	hud_stack.erase(p_node)
+	vm.set_ui_active(hud_stack.size() != 0 || ui_stack.size() != 0)
 
 func _ready():
 	res_cache = preload("res://globals/resource_queue.gd").new()
