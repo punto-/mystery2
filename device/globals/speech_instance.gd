@@ -27,6 +27,7 @@ export var fixed_pos = false
 func _process(time):
 	if finished:
 		return
+		
 	elapsed += time
 	if !text_done:
 		if elapsed >= total_time:
@@ -98,6 +99,9 @@ func init(p_params, p_context):
 			pos = character.get_node("dialog_pos").get_global_pos()
 		else:
 			pos = character.get_pos()
+			
+			#BUG: This needs to be changed.
+			pos += Vector2(500, 0)
 		set_pos(pos)
 
 	if has_node("anchor/avatars"):
@@ -213,5 +217,6 @@ func _ready():
 	#speech_language = vm.settings.voice_lang
 	if !(speech_language in speech_locales):
 		speech_language = default_speech_language
-
-	vm.connect("paused", self, "game_paused")
+	
+	#BUG: This is causing errors. Will have to investigate.
+	#vm.connect("paused", self, "game_paused")

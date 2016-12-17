@@ -1,22 +1,88 @@
-[gd_scene load_steps=6 format=1]
+[gd_scene load_steps=10 format=1]
 
-[ext_resource path="res://scenes/test/Grass.png" type="Texture" id=1]
-[ext_resource path="res://globals/item.gd" type="Script" id=2]
-[ext_resource path="res://scenes/test/player.gd" type="Script" id=3]
-[ext_resource path="res://scenes/test/PlayerSprite.png" type="Texture" id=4]
+[ext_resource path="res://scenes/test/test_scene_init.gd" type="Script" id=1]
+[ext_resource path="res://scenes/test/Grass.png" type="Texture" id=2]
+[ext_resource path="res://scenes/test/Money.png" type="Texture" id=3]
+[ext_resource path="res://globals/item.gd" type="Script" id=4]
+[ext_resource path="res://scenes/test/player.gd" type="Script" id=5]
+[ext_resource path="res://scenes/test/PlayerSprite.png" type="Texture" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10, 10 )
 
+[sub_resource type="RectangleShape2D" id=2]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10, 10 )
+
+[sub_resource type="RectangleShape2D" id=3]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10, 10 )
+
 [node name="test_scene" type="Node2D"]
 
-[node name="Sprite" type="Sprite" parent="."]
+script/script = ExtResource( 1 )
 
-transform/pos = Vector2( 756.248, 323.643 )
+[node name="Grass" type="Sprite" parent="."]
+
+transform/pos = Vector2( 751.102, 320.703 )
 transform/scale = Vector2( 6.0117, 7.94829 )
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
+
+[node name="Money" type="Node" parent="."]
+
+[node name="Sprite" type="Sprite" parent="Money" groups=[ "Interactable" ]]
+
+transform/pos = Vector2( 939.15, 541.344 )
+texture = ExtResource( 3 )
+script/script = ExtResource( 4 )
+active = true
+global_id = "money"
+talk_animation = "talk"
+events_path = "res://scenes/test/money.esc"
+
+[node name="Area2D" type="Area2D" parent="Money/Sprite"]
+
+input/pickable = true
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( 10.574, 0, 0, 6.87028, 1.0519, -3.11012 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Money/Sprite/Area2D"]
+
+transform/pos = Vector2( 1.0519, -3.11012 )
+transform/scale = Vector2( 10.574, 6.87028 )
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Money/Sprite"]
+
+input/pickable = false
+shapes/0/shape = SubResource( 2 )
+shapes/0/transform = Matrix32( 3.30791, 0, 0, 1.78119, -1.52087, -1.63988 )
+shapes/0/trigger = false
+collision/layers = 1
+collision/mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Money/Sprite/StaticBody2D"]
+
+transform/pos = Vector2( -1.52087, -1.63988 )
+transform/scale = Vector2( 3.30791, 1.78119 )
+shape = SubResource( 2 )
+trigger = false
+_update_shape_index = 0
 
 [node name="map_vendor" type="Button" parent="."]
 
@@ -33,45 +99,11 @@ enabled_focus_mode = 0
 shortcut = null
 text = "MAP VENDOR"
 flat = false
-script/script = ExtResource( 2 )
+script/script = ExtResource( 4 )
 active = true
 global_id = "map_vendor"
 talk_animation = "talk"
 events_path = "res://scenes/test/map_vendor.esc"
-
-[node name="dialog_pos" type="Position2D" parent="."]
-
-transform/pos = Vector2( 716.215, 424.95 )
-
-[node name="money" type="Button" parent="."]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 1089.0
-margin/top = 80.0
-margin/right = 1234.0
-margin/bottom = 138.0
-toggle_mode = false
-enabled_focus_mode = 0
-shortcut = null
-text = "$"
-flat = false
-script/script = ExtResource( 2 )
-active = true
-global_id = "money"
-talk_animation = "talk"
-events_path = "res://scenes/test/money.esc"
-
-[node name="player" type="Node2D" parent="."]
-
-transform/pos = Vector2( 678.731, 600.81 )
-script/script = ExtResource( 2 )
-active = true
-global_id = "player"
-talk_animation = "talk"
-events_path = ""
 
 [node name="Player" type="Node" parent="."]
 
@@ -80,13 +112,17 @@ events_path = ""
 transform/pos = Vector2( 640.442, 360.387 )
 transform/scale = Vector2( 1, 0.9375 )
 input/pickable = false
-shapes/0/shape = SubResource( 1 )
+shapes/0/shape = SubResource( 3 )
 shapes/0/transform = Matrix32( 5, 0, 0, 10, 0, 0 )
 shapes/0/trigger = false
 collision/layers = 1
 collision/mask = 1
 collision/margin = 0.08
-script/script = ExtResource( 3 )
+script/script = ExtResource( 5 )
+active = true
+global_id = ""
+talk_animation = "talk"
+events_path = ""
 
 [node name="Camera2D" type="Camera2D" parent="Player/KinematicBody2D"]
 
@@ -109,17 +145,25 @@ drag_margin/bottom = 0.2
 
 [node name="Sprite" type="Sprite" parent="Player/KinematicBody2D"]
 
-texture = ExtResource( 4 )
+texture = ExtResource( 6 )
+script/script = ExtResource( 4 )
+active = true
+global_id = "player"
+talk_animation = "talk"
+events_path = ""
+
+[node name="dialog_pos" type="Position2D" parent="Player/KinematicBody2D/Sprite"]
+
+transform/pos = Vector2( 7.77386, -161.918 )
+transform/scale = Vector2( 1, 1.06667 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/KinematicBody2D"]
 
 transform/scale = Vector2( 5, 10 )
-shape = SubResource( 1 )
+shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
 
 [connection signal="pressed" from="map_vendor" to="map_vendor" method="interact" binds= [ false ]]
-
-[connection signal="pressed" from="money" to="money" method="interact" binds= [ false ]]
 
 
