@@ -1,0 +1,12 @@
+
+:combine c/password c/monkey_island
+
+say player "He said his favorite game is Monkey Island..."
+say player "Maybe I can try the password for the Map Vendor from that game"
+set_global knows_password true
+
+
+
+:combine_fallback
+
+say player "I doesn't look like those 2 things are related..."

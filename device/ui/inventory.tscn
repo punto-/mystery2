@@ -140,4 +140,8 @@ transform/pos = Vector2( 81.4272, 222.074 )
 
 transform/pos = Vector2( 81.4273, 309.053 )
 
+[node name="hand_pos" type="Position2D" parent="."]
+
+transform/pos = Vector2( 544.479, 293.952 )
+
 

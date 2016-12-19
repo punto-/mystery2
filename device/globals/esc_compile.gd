@@ -2,6 +2,8 @@ const val_localized = 0
 const val_local = 1
 const val_global = 2
 
+const event_allow_param_names = false
+
 var commands = {
 	"set_global": { "min_args": 2, "types": [TYPE_STRING, TYPE_BOOL] },
 	"set_value": { "min_args": 3, "lvalues": 1 },
@@ -131,7 +133,7 @@ func is_event(line):
 		var id = ""
 		var name = ""
 		var sp = ev_line.find(" ")
-		if sp >= 0:
+		if sp >= 0 && event_allow_param_names:
 			id = ev_line.substr(0, sp)
 			name = ev_line.substr(sp+1, ev_line.length() - sp)
 		else:

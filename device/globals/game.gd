@@ -14,6 +14,8 @@ var window_size = Vector2()
 var current_scene
 var current_player
 
+var equipped
+
 var vm
 
 func register_object(name, val):
@@ -75,6 +77,14 @@ func set_current_scene(p_scene):
 func set_current_player(p_player):
 	current_player = p_player
 
+func equip(name):
+	equipped = name
+	vm.set_value("equipped", "=", name)
+	emit_signal("object_equipped", equipped)
+
+func get_equipped():
+	return equipped
+
 func check_screen():
 	var vs = OS.get_video_mode_size()
 	if vs == window_size:
@@ -115,3 +125,5 @@ func _ready():
 
 	set_process(true)
 	set_process_input(true)
+
+	add_user_signal("object_equipped", ["name"])
