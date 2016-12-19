@@ -4,6 +4,8 @@ var game
 var item
 var clue
 
+var hand
+
 var inventory
 
 var cur_item = -1
@@ -19,6 +21,10 @@ var item_cursor
 var clue_cursor
 
 var item_cols = 2
+
+var equipped_current
+
+var events
 
 func update_slots(parent, slots, first, current, cursor):
 	var slot = 0
@@ -68,14 +74,15 @@ func global_changed(name):
 
 func instance_item(p_item):
 	var node = item.duplicate()
-	node.get_node("icon").set_texture(load(p_item.icon))
+	if "icon" in p_item:
+		node.get_node("icon").set_texture(load(p_item.icon))
 	node.set_name(p_item.id)
 	node.set_meta("item", p_item)
 	get_node("i").add_child(node)
 	node.hide()
 
 func instance_clue(p_clue):
-	var node = clue.duplicate
+	var node = clue.duplicate()
 	node.set_name(p_clue.id)
 	node.get_node("title").set_text(p_clue.title)
 	node.set_meta("clue", p_clue)
@@ -148,6 +155,91 @@ func input(event):
 	if event.is_action("inventory_toggle"):
 		close()
 
+	#if event.is_action("use"):
+	#	interact()
+
+	if event.is_action("equip"):
+		equip()
+
+	if event.is_action("combine"):
+		combine()
+
+
+func _get_current():
+	var id = null
+	if cur_item != -1:
+		var node = get_node("i").get_child(cur_item)
+		id = "i/"+node.get_meta("item").id
+	elif cur_clue != -1:
+		var node = get_node("c").get_child(cur_clue)
+		id = "c/"+node.get_meta("clue").id
+
+	return id
+
+func interact():
+	var id = _get_current()
+	if id == null:
+		return
+
+	var ev_name = "use "+id
+	if ev_name in events:
+		close()
+		vm.run_event(events[ev_name], {})
+	else:
+		print("warning: event use not found for item ", id)
+
+func equip():
+	var id = _get_current()
+	if id == null:
+		return
+
+	game.equip(id)
+
+func combine():
+	var current = _get_current()
+	if current == null:
+		return
+
+	var equipped = game.get_equipped()
+	if current == equipped:
+		return
+
+	var ev_name = "combine "+current+" "+equipped
+	if ev_name in events:
+		close()
+		vm.run_event(events[ev_name], {})
+		return
+
+	ev_name = "combine "+equipped+" "+current
+	if ev_name in events:
+		close()
+		vm.run_event(events[ev_name], {})
+		return
+
+	close()
+	vm.run_event(events.combine_fallback, {})
+
+
+func equip_changed(name):
+	if equipped_current != null:
+		equipped_current.free()
+
+	if name == null:
+		return
+
+	var node = get_node(name)
+
+	if node == null:
+		print("warning: can't find equipped item in inventory ", name)
+		return
+
+	equipped_current = node.duplicate()
+	add_child(equipped_current)
+	equipped_current.show()
+	equipped_current.set_global_pos(get_node("hand_pos").get_global_pos())
+
+
+
 func move_cursor(dir):
 
 	var it_count = get_node("i").get_child_count()
@@ -214,6 +306,8 @@ func _ready():
 	game = get_node("/root/game")
 	vm = get_node("/root/vm")
 
+	events = vm.compile("res://game/inventory_events.esc")
+
 	item = get_node("item")
 	item.hide()
 	clue = get_node("clue")
@@ -225,5 +319,6 @@ func _ready():
 	inventory = preload("res://game/inventory.gd")
 
 	vm.connect("global_changed", self, "global_changed")
+	game.call_deferred("connect", "object_equipped", self, "equip_changed")
 
 	find_slots()

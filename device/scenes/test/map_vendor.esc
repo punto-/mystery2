@@ -16,8 +16,9 @@ debug "this is the 'use' event on map_vendor!"
 			say player "I'd like to buy a map"
 			> [!player_knows_password]
 				say map_vendor "do you know the password?"
+				set_global c/password true
 				?
-					- "Uncle Sven sends his regards"
+					- "Uncle Sven sends his regards" [knows_password]
 						say player "Sven sends his regards"
 						say map_vendor "You're allright"
 						set_global player_knows_password true
@@ -44,6 +45,11 @@ debug "this is the 'use' event on map_vendor!"
 				- "Nevermind"
 					say map_vendor "Goodbye"
 					stop
+
+		- "Hey, you remind me of the Map Vendor from Monkey Island 1!"
+			say player "Hey, you remind me of the Map Vendor from Monkey Island 1!"
+			say map_vendor "Thanks! That's my favorite game!"
+			set_global c/monkey_island true
 
 		- "What am I supposed to do with this map?" [i/map]
 			say player "What am I supposed to do with this map?"
