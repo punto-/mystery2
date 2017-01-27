@@ -69,7 +69,32 @@ func inventory_set(name, p_enabled):
 	pass
 
 func change_scene(params, context):
-	pass
+	print("change scene to ", params[0])
+	# remove current scene
+	if current_scene != null:
+		current_scene.free()
+		current_scene = null
+
+	var res = res_cache.get_resource(params[0])
+	res_cache.clear()
+	if res == null:
+		print("error: unable to load new scene ", params[0])
+		return
+	var scene = res.instance()
+	if scene == null:
+		print("error: failed to instance new scene ", params[0])
+		return
+
+	get_node("/root").add_child(scene)
+	set_current_scene(scene)
+
+	vm.finished(context, false)
+
+
+func start_new_game():
+	vm.clear()
+	var events = vm.compile("res://game/game.esc")
+	vm.run_event(events["load"], {})
 
 func set_current_scene(p_scene):
 	current_scene = p_scene
@@ -114,6 +139,7 @@ func remove_hud(p_node):
 
 func _ready():
 	res_cache = preload("res://globals/resource_queue.gd").new()
+	res_cache.start()
 
 	game_size = Vector2(Globals.get("display/game_width"), Globals.get("display/game_height"))
 
