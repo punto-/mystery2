@@ -54,6 +54,7 @@ var commands = {
 	"despawn": { "min_args": 1, "types": [TYPE_STRING] },
 	"face": { "min_args": 1, "types": [TYPE_STRING] },
 	"harvest": { "min_args": 1, "types": [TYPE_STRING] },
+	"accuse": { "min_args": 1, "types": [TYPE_STRING] },
 }
 
 var str_index = {}

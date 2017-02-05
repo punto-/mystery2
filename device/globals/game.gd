@@ -61,6 +61,58 @@ func _input(event):
 		elif current_player != null:
 			current_player.input(event)
 
+func accuse(character_name):
+	#Note: We will need to manually set the judge's animation path
+	#in the animation player for each scenario/mystery
+	#Later we can pass that animation as a parameter for accusation
+	#Or load dynamically based on the current level.
+	print("Cutscene for judge.")
+	get_node("../test_scene/Judge").set_hidden(false)
+	get_node("../test_scene/AnimationPlayer").play("JudgeEnter")
+	
+	
+	#TO-DO: snap bar to the top of the camera screen
+	print("Guilt percentage bar appears")
+	var progress_bar = get_node("../test_scene/ProgressBar")
+	progress_bar.set_hidden(false)
+	progress_bar.set_percent_visible(true)
+	
+	#TO-DO: only change the value upon dialogue choices
+	var truth = progress_bar.get_value()
+	progress_bar.set_value(truth + 10)
+	
+	
+	#TO-DO: trigger judge dialogue/cutscene
+	
+	
+	print("Inventory screen appears")
+	inventory_open()
+	
+	
+	print("Dialog box from judge: pick relevant evidence.")
+	print("Selecting evidence affects the bar OR gives a strike")
+	print("1) add icon to 'judged' items and 2) add truth % points to description")
+	print("Repeat this until victory or loss condition")
+	
+	
+	#Check for losing conditions (3 incorrect facts presented), if you've lost:
+		#Check if you've lost an accusation 3 times, if so:
+			#print("Game Over")
+			#print("Restart from beginning")
+	print("Guilt percentage bar disappears")
+	print("Cutscene where judge scolds you for losing")
+	print("Reset values and return to investigation")
+	# Reset everything from accusation sequence,
+	#	the amount of percentage points a fact or item is worth
+	#	is now visible in inventory, player can move freely
+	
+	
+	#Check for victory conditions (meter at 90%), if you've won:
+		#LATER: Can prove innocence if meter at 10%
+	print("Guilt percentage bar disappears") #set_accuse_bar false
+	print("Victory cutscene after completing accusation.")
+	print("Load new game level intro")
+
 func inventory_open():
 	hud_layer.get_node("inventory").open()
 

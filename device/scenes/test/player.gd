@@ -41,6 +41,9 @@ func move_player():
 		move_direction += Vector2(0, -1)
 	if(Input.is_action_pressed("walk_down")):
 		move_direction += Vector2(0, 1)
+	if is_colliding():
+        var normal = get_collision_normal()
+        move_direction = normal.slide( move_direction )
 	move(move_direction.normalized() * speed)
 
 func _on_Area2D_body_enter(body, obj):

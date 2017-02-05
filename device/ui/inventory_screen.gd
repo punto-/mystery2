@@ -201,7 +201,7 @@ func combine():
 		return
 
 	var equipped = game.get_equipped()
-	if current == equipped:
+	if current == equipped or equipped == null:
 		return
 
 	var ev_name = "combine "+current+" "+equipped
@@ -268,7 +268,7 @@ func move_cursor(dir):
 			cur_clue = -1
 		elif cur_item != -1:
 			if dir.x == 1:
-				if cur_item % 2 == 1 || cur_item == it_count -1:
+				if int(cur_item) % 2 == 1 || cur_item == it_count -1:
 					cur_clue = first_clue
 					cur_item = -1
 				else:

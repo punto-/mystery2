@@ -89,6 +89,11 @@ func dialog(params):
 	vm.game.dialog(params, current_context)
 	return vm.state_yield
 
+func accuse(params):
+	print(params)
+	return vm.game.accuse(params)
+
+#Parameters: "cut_scene" <anim_id> <flipx?> <flipy?>
 func cut_scene(params):
 	if !check_obj(params[0], "cut_scene"):
 		return vm.state_return
