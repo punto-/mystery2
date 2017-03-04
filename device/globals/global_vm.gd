@@ -29,6 +29,9 @@ var last_event_id = 0
 
 var ui_active = false
 
+#delete
+signal esc_finished
+
 func set_ui_active(p_active):
 	ui_active = p_active
 
@@ -213,6 +216,10 @@ func get_global(name):
 func set_global(name, val):
 	globals[name] = val
 	emit_signal("global_changed", name)
+	
+	#TO-DO: Refactor this. This is a hack.
+	if(name == "esc_finished" && val == true):
+		emit_signal("esc_finished")
 
 func eval_value(name):
 	var t = typeof(name)

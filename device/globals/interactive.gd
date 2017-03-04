@@ -107,6 +107,10 @@ func _find_shapes(p = null):
 	for i in range(0, p.get_child_count()):
 		_find_shapes(p.get_child(i))
 
+func anim_finished():
+	var stack = vm.tasks[vm.task_current].stack
+	var context = stack[stack.size()-1]
+	vm.finished(context, false)
 
 func _ready():
 	_find_sprites(self)

@@ -56,6 +56,37 @@ margin/bottom = 40.0
 
 [node name="icon" type="Sprite" parent="item"]
 
+transform/pos = Vector2( 1, -2 )
+
+[node name="title" type="Label" parent="item"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -37.0
+margin/top = -89.0
+margin/right = 55.0
+margin/bottom = -58.0
+text = "this is an item"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="points" type="Label" parent="item"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 64.0
+margin/top = -90.0
+margin/right = 104.0
+margin/bottom = -76.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
 [node name="clue" type="TextureFrame" parent="."]
 
 focus/ignore_mouse = true

@@ -2,7 +2,7 @@
 
 change_scene res://scenes/test/test_scene.tscn
 
-say player "Hello! This is game!"
-say player "This dialog will get annoying! :D"
-say player "Feel free to remove it from game/game.esc <3"
-say player "Now start game!"
+#say player "Hello! This is game!"
+#say player "This dialog will get annoying! :D"
+#say player "Feel free to remove it from game/game.esc <3"
+#say player "Now start game!"

@@ -26,6 +26,8 @@ var equipped_current
 
 var events
 
+signal inventory_closed
+
 func update_slots(parent, slots, first, current, cursor):
 	var slot = 0
 	for i in range(parent.get_child_count()):
@@ -74,9 +76,17 @@ func global_changed(name):
 
 func instance_item(p_item):
 	var node = item.duplicate()
+	var name = p_item.id
+	var points = ""
 	if "icon" in p_item:
 		node.get_node("icon").set_texture(load(p_item.icon))
-	node.set_name(p_item.id)
+	if "points" in p_item and vm.get_global(name):
+		points = str(p_item.points, "% suspicion")
+	node.set_name(name)
+	node.get_node("title").set_text(name)
+	node.get_node("points").set_text(points)
+	node.get_node("title").hide()
+	node.get_node("points").hide()
 	node.set_meta("item", p_item)
 	get_node("i").add_child(node)
 	node.hide()
@@ -106,7 +116,19 @@ func check_instances(list, prefix):
 				instance_clue(it)
 		elif !in_inv && instanced:
 			remove_item(gid)
-
+		elif in_inv && instanced:
+			remove_item(gid)
+			if prefix == "i/":
+				instance_item(it)
+			else:
+				instance_clue(it)
+		
+		if has_node(gid) and gid == _get_current():
+			var item = get_node(gid)
+			if item.get_node("title") != null:
+				item.get_node("title").show()
+			if item.get_node("points") != null:
+				item.get_node("points").show()
 
 func update_items():
 	check_instances(inventory.items, "i/")
@@ -116,8 +138,6 @@ func update_items():
 		cur_item = -1
 	if get_node("c").get_child_count() == 0:
 		cur_clue = -1
-
-
 
 func find_slots():
 	item_slots = []
@@ -149,14 +169,22 @@ func input(event):
 		dir.x = 1
 
 	if dir != Vector2():
+		if cur_item != -1:
+			get_node("i").get_child(cur_item).get_node("title").hide()
+			get_node("i").get_child(cur_item).get_node("points").hide()
 		move_cursor(dir)
 		update_pages()
 
+	if cur_item != -1 :
+		get_node("i").get_child(cur_item).get_node("title").show()
+		get_node("i").get_child(cur_item).get_node("points").show()
+
 	if event.is_action("inventory_toggle"):
 		close()
+		emit_signal("inventory_closed")
 
 	#if event.is_action("use"):
-	#	interact()
+		#interact()
 
 	if event.is_action("equip"):
 		equip()
@@ -172,7 +200,8 @@ func _get_current():
 		id = "i/"+node.get_meta("item").id
 	elif cur_clue != -1:
 		var node = get_node("c").get_child(cur_clue)
-		id = "c/"+node.get_meta("clue").id
+		if node != null:
+			id = "c/"+node.get_meta("clue").id
 
 	return id
 
@@ -233,15 +262,18 @@ func equip_changed(name):
 		print("warning: can't find equipped item in inventory ", name)
 		return
 
+	if name == "":
+		equipped_current = null
+		return
+		
 	equipped_current = node.duplicate()
+	if node.has_node("points"):
+		node.get_node("points").hide()
 	add_child(equipped_current)
 	equipped_current.show()
 	equipped_current.set_global_pos(get_node("hand_pos").get_global_pos())
 
-
-
 func move_cursor(dir):
-
 	var it_count = get_node("i").get_child_count()
 	var clue_count = get_node("c").get_child_count()
 	if dir.y != 0:
@@ -259,14 +291,16 @@ func move_cursor(dir):
 				cur_clue = 0
 
 	elif dir.x != 0:
-		# todo: figure out the right way to switch areas
-		if it_count == 0 || clue_count == 0:
-			return
-
 		if cur_clue != -1:
 			cur_item = first_item
 			cur_clue = -1
 		elif cur_item != -1:
+			if dir.x == -1:
+				cur_item += dir.x
+				if cur_item < 0:
+					cur_item = 0
+				if cur_item >= it_count:
+					cur_item = it_count - 1
 			if dir.x == 1:
 				if int(cur_item) % 2 == 1 || cur_item == it_count -1:
 					cur_clue = first_clue
@@ -300,9 +334,11 @@ func open():
 	game.add_hud(self)
 	update_pages()
 
+	if cur_item != -1 :
+		get_node("i").get_child(cur_item).get_node("title").show()
+		get_node("i").get_child(cur_item).get_node("points").show()
 
 func _ready():
-
 	game = get_node("/root/game")
 	vm = get_node("/root/vm")
 

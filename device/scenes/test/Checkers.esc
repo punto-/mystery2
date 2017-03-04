@@ -15,10 +15,10 @@ debug "this is the 'use' event for Checkers the Cat!"
 			say Checkers "Well, I never did claim to be a cat!"
 			set_global c/all_cats_work_for_Fat_Cat true
 
-		- "Accuse Checkers" [c/checkers_work_for_Fat_Cat]
-			> [!accused_Checkers_previously]
-				say player "I'm pretty sure you're a cat, and that you work for a criminal!"
-				say Checkers "!!"
+		- "Accuse Checkers" [spoke_to_Cat] #[c/checkers_work_for_Fat_Cat]
+#			> [!accused_Checkers_previously]
+#				say player "I'm pretty sure you're a cat, and that you work for a criminal!"
+#				say Checkers "!!"
 #				say Checkers "But what does it mean to BE a 'cat'? What is an identity but a series of labels?"
 #				say Checkers "Your feeble uneducated mind may see me as a cat, but I may more accurately label myself as an artist or a mathematician!"
 #				say Checkers "I could be a dragon or a lamprey!"
@@ -32,4 +32,4 @@ debug "this is the 'use' event for Checkers the Cat!"
 #				set_global accused_Checkers_previously true
 #			> [accused_Checkers_previously]
 #				say player "<begin accusation sequence>" */
-				accuse Checkers
+			accuse Checkers

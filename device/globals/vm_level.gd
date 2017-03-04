@@ -90,8 +90,9 @@ func dialog(params):
 	return vm.state_yield
 
 func accuse(params):
-	print(params)
-	return vm.game.accuse(params)
+	current_context.waiting = true
+	vm.game.accuse(params, current_context)
+	return vm.state_yield
 
 #Parameters: "cut_scene" <anim_id> <flipx?> <flipy?>
 func cut_scene(params):
@@ -271,9 +272,7 @@ func game_over(params):
 
 func run(context):
 	var cmd = context.instructions[context.ip]
-	if cmd.name == "branch":
-		context.branch_run = false
-	elif cmd.name == "label":
+	if cmd.name == "label":
 		return vm.state_return
 
 	if !vm.test(cmd):

@@ -62,7 +62,9 @@ mouse_exit_shadow_color = Color( 1, 1, 1, 1 )
 
 [node name="anchor" type="Node2D" parent="."]
 
+visibility/visible = false
 transform/pos = Vector2( 373.302, 425.803 )
+transform/scale = Vector2( 1, 1e-05 )
 
 [node name="bg" type="TextureFrame" parent="anchor"]
 
@@ -140,6 +142,7 @@ margin/bottom = 0.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
+params/modulate = Color( 0, 0, 0, 1 )
 
 [node name="label" type="Label" parent="item/button"]
 
@@ -147,13 +150,13 @@ rect/min_size = Vector2( 1580, 33 )
 focus/ignore_mouse = true
 focus/stop_mouse = false
 size_flags/horizontal = 2
-size_flags/vertical = 0
+size_flags/vertical = 3
 margin/left = 25.0
 margin/top = 3.0
 margin/right = 1605.0
 margin/bottom = 36.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_colors/font_color_shadow = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "I should pick option one"
 autowrap = true
 percent_visible = 1.0

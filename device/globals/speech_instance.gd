@@ -99,9 +99,6 @@ func init(p_params, p_context):
 			pos = character.get_node("dialog_pos").get_global_pos()
 		else:
 			pos = character.get_pos()
-			
-			#BUG: This needs to be changed.
-			pos += Vector2(500, 0)
 		set_pos(pos)
 
 	if has_node("anchor/avatars"):

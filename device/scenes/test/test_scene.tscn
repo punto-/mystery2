@@ -13,22 +13,10 @@
 [ext_resource path="res://scenes/test/Cat_Hair.png" type="Texture" id=11]
 [ext_resource path="res://scenes/test/judge.png" type="Texture" id=12]
 
-[sub_resource type="Animation" id=1]
+[sub_resource type="RectangleShape2D" id=1]
 
-resource/name = "JudgeEnter"
-length = 3.0
-loop = false
-step = 0.1
-tracks/0/type = "value"
-tracks/0/path = NodePath("Judge:transform/pos")
-tracks/0/interp = 1
-tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0, 3 ), "transitions":FloatArray( 1, 1 ), "update":0, "values":[ Vector2( 1762.5, 315.908 ), Vector2( 1042.33, 266.454 ) ] }
-tracks/1/type = "value"
-tracks/1/path = NodePath("Judge:transform/rot")
-tracks/1/interp = 1
-tracks/1/imported = false
-tracks/1/keys = { "times":FloatArray( 0, 3 ), "transitions":FloatArray( 1, 1 ), "update":0, "values":[ 0.0, 0.0 ] }
+custom_solver_bias = 0.0
+extents = Vector2( 10, 10 )
 
 [sub_resource type="RectangleShape2D" id=2]
 
@@ -38,17 +26,17 @@ extents = Vector2( 10, 10 )
 [sub_resource type="RectangleShape2D" id=3]
 
 custom_solver_bias = 0.0
-extents = Vector2( 10, 10 )
+extents = Vector2( 93.2233, 96.4344 )
 
 [sub_resource type="RectangleShape2D" id=4]
 
 custom_solver_bias = 0.0
-extents = Vector2( 93.2233, 96.4344 )
+extents = Vector2( 132.086, 127.895 )
 
 [sub_resource type="RectangleShape2D" id=5]
 
 custom_solver_bias = 0.0
-extents = Vector2( 132.086, 127.895 )
+extents = Vector2( 10, 10 )
 
 [sub_resource type="RectangleShape2D" id=6]
 
@@ -58,56 +46,50 @@ extents = Vector2( 10, 10 )
 [sub_resource type="RectangleShape2D" id=7]
 
 custom_solver_bias = 0.0
-extents = Vector2( 10, 10 )
+extents = Vector2( 68.2043, 120.03 )
 
 [sub_resource type="RectangleShape2D" id=8]
 
 custom_solver_bias = 0.0
-extents = Vector2( 68.2043, 120.03 )
+extents = Vector2( 94.3768, 153.423 )
 
 [sub_resource type="RectangleShape2D" id=9]
 
 custom_solver_bias = 0.0
-extents = Vector2( 94.3768, 153.423 )
+extents = Vector2( 46.7237, 46.0311 )
 
 [sub_resource type="RectangleShape2D" id=10]
 
 custom_solver_bias = 0.0
-extents = Vector2( 46.7237, 46.0311 )
-
-[sub_resource type="RectangleShape2D" id=11]
-
-custom_solver_bias = 0.0
 extents = Vector2( 70.6197, 70.9025 )
+
+[sub_resource type="Animation" id=11]
+
+resource/name = "JudgeEnter"
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:transform/pos")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0, 1 ), "transitions":FloatArray( 1, 1 ), "update":0, "values":[ Vector2( 1976.38, 356.242 ), Vector2( 990.973, 262.712 ) ] }
 
 [node name="test_scene" type="Node2D"]
 
 script/script = ExtResource( 1 )
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-
-playback/process_mode = 1
-playback/default_blend_time = 0.0
-root/root = NodePath("..")
-anims/JudgeEnter = SubResource( 1 )
-playback/active = true
-playback/speed = 1.0
-blend_times = [  ]
-autoplay = ""
-
 [node name="Grass" type="Sprite" parent="."]
 
-transform/pos = Vector2( 662.746, 380.56 )
+transform/pos = Vector2( 1005.13, 427.325 )
 transform/scale = Vector2( 6.0117, 7.94829 )
 texture = ExtResource( 2 )
 
 [node name="Money" type="Node" parent="."]
 
-editor/display_folded = true
-
 [node name="Sprite" type="Sprite" parent="Money" groups=[ "Interactable" ]]
 
-transform/pos = Vector2( -171.072, -649.773 )
+transform/pos = Vector2( 236.452, 549.416 )
 texture = ExtResource( 3 )
 script/script = ExtResource( 4 )
 active = true
@@ -118,7 +100,7 @@ events_path = "res://scenes/test/money.esc"
 [node name="Area2D" type="Area2D" parent="Money/Sprite"]
 
 input/pickable = true
-shapes/0/shape = SubResource( 2 )
+shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Matrix32( 10.574, 0, 0, 6.87028, 1.0519, -3.11012 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -130,14 +112,14 @@ angular_damp = 1.0
 
 transform/pos = Vector2( 1.0519, -3.11012 )
 transform/scale = Vector2( 10.574, 6.87028 )
-shape = SubResource( 2 )
+shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Money/Sprite"]
 
 input/pickable = false
-shapes/0/shape = SubResource( 3 )
+shapes/0/shape = SubResource( 2 )
 shapes/0/transform = Matrix32( 3.30791, 0, 0, 1.78119, -1.52087, -1.63988 )
 shapes/0/trigger = false
 collision/layers = 1
@@ -151,7 +133,7 @@ bounce = 0.0
 
 transform/pos = Vector2( -1.52087, -1.63988 )
 transform/scale = Vector2( 3.30791, 1.78119 )
-shape = SubResource( 3 )
+shape = SubResource( 2 )
 trigger = false
 _update_shape_index = 0
 
@@ -178,7 +160,9 @@ events_path = "res://scenes/test/map_vendor.esc"
 
 [node name="Bush" type="Sprite" parent="."]
 
-transform/pos = Vector2( 213.908, -633.116 )
+editor/display_folded = true
+transform/pos = Vector2( 1065.7, 479.224 )
+transform/scale = Vector2( 1, 1 )
 texture = ExtResource( 5 )
 
 [node name="Berries" type="Sprite" parent="Bush"]
@@ -193,7 +177,7 @@ events_path = "res://scenes/test/berries.esc"
 [node name="StaticBody2D" type="StaticBody2D" parent="Bush/Berries"]
 
 input/pickable = false
-shapes/0/shape = SubResource( 4 )
+shapes/0/shape = SubResource( 3 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 3.70123, 3.70123 )
 shapes/0/trigger = false
 collision/layers = 1
@@ -206,14 +190,14 @@ bounce = 0.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Bush/Berries/StaticBody2D"]
 
 transform/pos = Vector2( 3.70123, 3.70123 )
-shape = SubResource( 4 )
+shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
 
 [node name="Area2D" type="Area2D" parent="Bush/Berries"]
 
 input/pickable = true
-shapes/0/shape = SubResource( 5 )
+shapes/0/shape = SubResource( 4 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -223,7 +207,7 @@ angular_damp = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Bush/Berries/Area2D"]
 
-shape = SubResource( 5 )
+shape = SubResource( 4 )
 trigger = false
 _update_shape_index = 0
 
@@ -240,6 +224,8 @@ transform/scale = Vector2( 4.91631, 9.81686 )
 
 [node name="Character1" type="Node" parent="."]
 
+editor/display_folded = true
+
 [node name="Waldorf" type="Sprite" parent="Character1"]
 
 transform/pos = Vector2( 211.865, 132.963 )
@@ -254,7 +240,7 @@ events_path = "res://scenes/test/Waldorf.esc"
 [node name="StaticBody2D" type="StaticBody2D" parent="Character1/Waldorf"]
 
 input/pickable = false
-shapes/0/shape = SubResource( 6 )
+shapes/0/shape = SubResource( 5 )
 shapes/0/transform = Matrix32( 10.4644, 0, 0, 12.5573, 0.615204, -105.022 )
 shapes/0/trigger = false
 collision/layers = 1
@@ -268,7 +254,7 @@ bounce = 0.0
 
 transform/pos = Vector2( 0.615204, -105.022 )
 transform/scale = Vector2( 10.4644, 12.5573 )
-shape = SubResource( 6 )
+shape = SubResource( 5 )
 trigger = false
 _update_shape_index = 0
 
@@ -277,7 +263,7 @@ _update_shape_index = 0
 transform/pos = Vector2( -79.6467, -130.869 )
 transform/scale = Vector2( 4.71879, 6.75934 )
 input/pickable = true
-shapes/0/shape = SubResource( 7 )
+shapes/0/shape = SubResource( 6 )
 shapes/0/transform = Matrix32( 3.26091, 0, 0, 4.23875, 16.7072, 22.3805 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -289,11 +275,13 @@ angular_damp = 1.0
 
 transform/pos = Vector2( 16.7072, 22.3805 )
 transform/scale = Vector2( 3.26091, 4.23875 )
-shape = SubResource( 7 )
+shape = SubResource( 6 )
 trigger = false
 _update_shape_index = 0
 
 [node name="Character2" type="Node" parent="."]
+
+editor/display_folded = true
 
 [node name="Checkers" type="Sprite" parent="Character2"]
 
@@ -308,7 +296,7 @@ events_path = "res://scenes/test/Checkers.esc"
 [node name="StaticBody2D" type="StaticBody2D" parent="Character2/Checkers"]
 
 input/pickable = false
-shapes/0/shape = SubResource( 8 )
+shapes/0/shape = SubResource( 7 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
 collision/layers = 1
@@ -320,14 +308,14 @@ bounce = 0.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Character2/Checkers/StaticBody2D"]
 
-shape = SubResource( 8 )
+shape = SubResource( 7 )
 trigger = false
 _update_shape_index = 0
 
 [node name="Area2D" type="Area2D" parent="Character2/Checkers"]
 
 input/pickable = true
-shapes/0/shape = SubResource( 9 )
+shapes/0/shape = SubResource( 8 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -337,11 +325,13 @@ angular_damp = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Character2/Checkers/Area2D"]
 
-shape = SubResource( 9 )
+shape = SubResource( 8 )
 trigger = false
 _update_shape_index = 0
 
 [node name="SceneOfCrime" type="Node" parent="."]
+
+editor/display_folded = true
 
 [node name="AmuletPillow" type="Sprite" parent="SceneOfCrime"]
 
@@ -360,7 +350,7 @@ events_path = "res://scenes/test/CatHair.esc"
 [node name="StaticBody2D" type="StaticBody2D" parent="SceneOfCrime/AmuletPillow/CatHair"]
 
 input/pickable = false
-shapes/0/shape = SubResource( 10 )
+shapes/0/shape = SubResource( 9 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
 collision/layers = 1
@@ -372,14 +362,14 @@ bounce = 0.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SceneOfCrime/AmuletPillow/CatHair/StaticBody2D"]
 
-shape = SubResource( 10 )
+shape = SubResource( 9 )
 trigger = false
 _update_shape_index = 0
 
 [node name="Area2D" type="Area2D" parent="SceneOfCrime/AmuletPillow/CatHair"]
 
 input/pickable = true
-shapes/0/shape = SubResource( 11 )
+shapes/0/shape = SubResource( 10 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -389,15 +379,30 @@ angular_damp = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SceneOfCrime/AmuletPillow/CatHair/Area2D"]
 
-shape = SubResource( 11 )
+shape = SubResource( 10 )
 trigger = false
 _update_shape_index = 0
 
 [node name="Judge" type="Sprite" parent="."]
 
-visibility/visible = false
-transform/pos = Vector2( 1802.68, 312.817 )
+transform/pos = Vector2( 1976.38, 356.242 )
 texture = ExtResource( 12 )
+script/script = ExtResource( 4 )
+active = true
+global_id = "Judge"
+talk_animation = "talk"
+events_path = "res://scenes/test/Judge.esc"
+
+[node name="animation" type="AnimationPlayer" parent="Judge"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/JudgeEnter = SubResource( 11 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 

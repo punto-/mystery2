@@ -10,7 +10,6 @@ func interact(params):
 	if "use" in event_table:
 		vm.run_event(event_table.use, {})
 
-
 func _ready():
 
 	if events_path != "":

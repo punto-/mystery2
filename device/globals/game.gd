@@ -15,6 +15,7 @@ var current_scene
 var current_player
 
 var equipped
+var failures
 
 var vm
 
@@ -61,60 +62,93 @@ func _input(event):
 		elif current_player != null:
 			current_player.input(event)
 
-func accuse(character_name):
-	#Note: We will need to manually set the judge's animation path
-	#in the animation player for each scenario/mystery
-	#Later we can pass that animation as a parameter for accusation
-	#Or load dynamically based on the current level.
-	print("Cutscene for judge.")
-	get_node("../test_scene/Judge").set_hidden(false)
-	get_node("../test_scene/AnimationPlayer").play("JudgeEnter")
+func prompt_judge():
+	#TO-DO: trigger judge dialogue/cutscene
+	#now trigger the cutscene by manually calling "use" on the judge
+	#later, may want to make sure different judge scripts are 
+	#loaded based on different levels (change esc script in Judge object)
+	var judge = get_tree().get_root().get_node("test_scene/Judge")
+	judge.interact(null)
+
+func accuse(character_name, context):
 	
-	
+	#Set the guilt percentage bar.
 	#TO-DO: snap bar to the top of the camera screen
-	print("Guilt percentage bar appears")
 	var progress_bar = get_node("../test_scene/ProgressBar")
 	progress_bar.set_hidden(false)
 	progress_bar.set_percent_visible(true)
 	
-	#TO-DO: only change the value upon dialogue choices
-	var truth = progress_bar.get_value()
-	progress_bar.set_value(truth + 10)
+	#Set values to interface with the Judge esc script.
+	vm.set_value("points", "=", "0")
+	vm.set_value("strikes", "=", "0")
+	var global_name	
+	var judge = get_tree().get_root().get_node("test_scene/Judge")
+	var judge_initial_position = judge.get_pos()
 	
+	#Initialize the accusation sequence.
+	prompt_judge()
+	yield(get_node("../vm"), "esc_finished")
 	
-	#TO-DO: trigger judge dialogue/cutscene
+	#Keep prompting for evidence until win, lose, or quit.
+	while(int(vm.values["points"]) < 90 && int(vm.values["strikes"]) < 3):
+		yield(get_node("hud_layer/inventory"), "inventory_closed")
+		var  curr = get_equipped() 
+		if(curr != null):
+			if(global_name != null):
+				vm.set_global(global_name, false)
+			global_name = get_equipped()
+			global_name = global_name.replace("c/", "")
+			global_name = global_name.replace("i/", "")
+			vm.set_global(global_name, true)
+		else:
+			#If nothing is equipped, prompt player:
+			#No evidence is equipped. Are you sure you'd
+			#like to end the trial?
+			#If yes, then add a failure (3 failures = game over)
+			#If no, prompt the inventory again
+			print("Quit trial?")
+			failures += 1
+			break
+		
+		#Evaluate the presented evidence.
+		vm.set_global("esc_finished", false)
+		prompt_judge()
+		yield(get_node("../vm"), "esc_finished")
+		
+		var truth = progress_bar.get_value()
+		progress_bar.set_value(truth + 10)
+		
+		hud_layer.get_node("inventory").update_items()
+		
+	#Reset the progress bar and the judge.
+	progress_bar.set_hidden(true)
+	var judge = get_tree().get_root().get_node("test_scene/Judge")
+	judge.set_pos(judge_initial_position)
+	judge.hide()
 	
+	#End conditions.
+	if(failures == 3):
+		print("Game Over")
+		print ("Restart level, reset from beginning")
 	
-	print("Inventory screen appears")
-	inventory_open()
+	if(int(vm.values["points"]) >=90 ):
+		print("Guilt percentage bar disappears")
+		print("Victory cutscene after completing accusation.")
+		print("Load new cutscene, area, level, etc.")
 	
+	if(int(vm.values["strikes"]) > 2):
+		print("Guilt percentage bar disappears")
+		print("Losing cutscene")
+		print("Reset values and return to investigation")
+		failures += 1
 	
-	print("Dialog box from judge: pick relevant evidence.")
-	print("Selecting evidence affects the bar OR gives a strike")
-	print("1) add icon to 'judged' items and 2) add truth % points to description")
-	print("Repeat this until victory or loss condition")
-	
-	
-	#Check for losing conditions (3 incorrect facts presented), if you've lost:
-		#Check if you've lost an accusation 3 times, if so:
-			#print("Game Over")
-			#print("Restart from beginning")
-	print("Guilt percentage bar disappears")
-	print("Cutscene where judge scolds you for losing")
-	print("Reset values and return to investigation")
-	# Reset everything from accusation sequence,
-	#	the amount of percentage points a fact or item is worth
-	#	is now visible in inventory, player can move freely
-	
-	
-	#Check for victory conditions (meter at 90%), if you've won:
-		#LATER: Can prove innocence if meter at 10%
-	print("Guilt percentage bar disappears") #set_accuse_bar false
-	print("Victory cutscene after completing accusation.")
-	print("Load new game level intro")
+	vm.finished(context, false)
 
 func inventory_open():
 	hud_layer.get_node("inventory").open()
+	
+func inventory_close():
+	hud_layer.get_node("inventory").close()
 
 func inventory_set(name, p_enabled):
 	# maybe not necessary? it can be global flags
@@ -155,8 +189,12 @@ func set_current_player(p_player):
 	current_player = p_player
 
 func equip(name):
-	equipped = name
-	vm.set_value("equipped", "=", name)
+	if equipped == name:
+		equipped = ""
+		vm.set_value ("equipped", "=", "")
+	else:
+		equipped = name
+		vm.set_value("equipped", "=", name)
 	emit_signal("object_equipped", equipped)
 
 func get_equipped():
