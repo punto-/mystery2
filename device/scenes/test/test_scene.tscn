@@ -162,7 +162,6 @@ events_path = "res://scenes/test/map_vendor.esc"
 
 editor/display_folded = true
 transform/pos = Vector2( 1065.7, 479.224 )
-transform/scale = Vector2( 1, 1 )
 texture = ExtResource( 5 )
 
 [node name="Berries" type="Sprite" parent="Bush"]
