@@ -15,7 +15,7 @@ var current_scene
 var current_player
 
 var equipped
-var failures
+var failures = 0
 
 var vm
 
@@ -81,7 +81,7 @@ func accuse(character_name, context):
 	#Set values to interface with the Judge esc script.
 	vm.set_value("points", "=", "0")
 	vm.set_value("strikes", "=", "0")
-	var global_name	
+	var global_name
 	var judge = get_tree().get_root().get_node("test_scene/Judge")
 	var judge_initial_position = judge.get_pos()
 	
