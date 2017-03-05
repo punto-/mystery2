@@ -125,9 +125,9 @@ func check_instances(list, prefix):
 		
 		if has_node(gid) and gid == _get_current():
 			var item = get_node(gid)
-			if item.get_node("title") != null:
+			if item.has_node("title") != null:
 				item.get_node("title").show()
-			if item.get_node("points") != null:
+			if item.has_node("points"):
 				item.get_node("points").show()
 
 func update_items():
