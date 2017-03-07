@@ -139,59 +139,10 @@ func init(p_params, p_context):
 	if self extends Node2D:
 		set_z(1)
 
-	setup_speech(text_id)
-
-func setup_speech(tid):
-
-	if tid == null || tid == "":
-		return
-
-	if !speech_enabled:
-		return
-
-	var fname = "res://audio/speech/"+speech_language+"/"+tid+speech_extension
-	printt(" ** loading speech ", fname)
-	speech_stream = load(fname)
-	if !speech_stream:
-		printt("*** unable to load speech stream ", fname)
-		return
-
-	var player = StreamPlayer.new()
-	player.set_name("speech_player")
-	add_child(player)
-	player.set_stream(speech_stream)
-	player.set_volume(vm.settings.voice_volume * Globals.get("application/max_voice_volume"))
-	player.play()
-
-	if !player.is_playing():
-		print(" *** not playing? :(")
-		# error?
-		speech_stream = null
-		player.free()
-		return
-
-	#total_time = speech_stream.get_length() * 0.8 + 1.5
-	#printt("total time ", total_time, speech_stream.get_length())
-	speech_player = player
-
-func game_paused(p_pause):
-	if speech_stream == null || speech_player == null:
-		return
-
-	if p_pause:
-		if speech_player.is_playing():
-			speech_player.set_paused(true)
-			speech_paused = true
-	else:
-		if speech_paused:
-			speech_player.set_paused(false)
-
-
 func _queue_free():
 	get_node("/root/game").remove_hud(self)
 	queue_free()
 	vm.finished(context, false)
-
 
 func anim_finished():
 	var cur = get_node("animation").get_current_animation()
