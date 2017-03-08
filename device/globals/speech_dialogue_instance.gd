@@ -8,6 +8,9 @@ export var mouse_exit_shadow_color = Color(1,1,1)
 var vm
 var character
 var context
+var cmd
+
+var is_choice
 
 var container
 var item
@@ -20,7 +23,7 @@ var option_selected
 var dialog_task
 
 func input(event):
-	if event.is_action_pressed("equip"):
+	if event.is_action_pressed("ui_accept") and !is_choice:
 		selected(0)
 	pass
 
@@ -32,30 +35,44 @@ func selected(n):
 		animation.play("hide")
 	else:
 		clear_dialogue()
+		if is_choice:
+			vm.add_level(cmd[option_selected].params[1], false, dialog_task)
 	ready = false
 
-func start(params, p_context, is_choice):
-	context = p_context
-	dialog_task = vm.task_current
-	
-	if !is_choice:
-		character = vm.game.get_object(params[0])
-		character.set_speaking(true)
-	
+func add_speech(text, id):
 	var it = item.duplicate()
 	var but = it.get_node("button")
 	var label = but.get_node("label")
-	label.set_text(params[1])
+	label.set_text(text)
 
-	#TO-DO support choices instead of hard-coding
-	but.connect("pressed", self, "selected", [0])
+	but.connect("pressed", self, "selected", [id])
 
-	var height_ratio = Globals.get("platform/dialog_option_height")
-	var size = it.get_custom_minimum_size()
-	size.y = size.y * height_ratio
-	it.set_custom_minimum_size(size)
+	if is_choice:
+		var height_ratio = Globals.get("platform/dialog_option_height")
+		var size = it.get_custom_minimum_size()
+		size.y = size.y * height_ratio
+		but.set_size(size)
 
 	container.add_child(it)
+
+func add_choices():
+	var i = 0
+	for choice in cmd:
+		add_speech(choice.params[0], i)
+		i += 1
+
+func start(params, p_context, p_is_choice):
+	context = p_context
+	dialog_task = vm.task_current
+	is_choice = p_is_choice
+	
+	if is_choice:
+		cmd = params[0]
+		add_choices()
+	else:
+		character = vm.game.get_object(params[0])
+		character.set_speaking(true)
+		add_speech(params[1], 0)
 	
 	ready = false
 	animation.play("show_basic")
@@ -87,7 +104,8 @@ func _queue_free():
 
 func clear_dialogue():
 	vm.finished(context, false)
-	character.set_speaking(false)
+	if !is_choice:
+		character.set_speaking(false)
 	stop()
 
 func anim_finished():
