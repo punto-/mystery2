@@ -43,7 +43,6 @@ func say(params, level):
 
 func dialog(params, level):
 	get_node("speech_dialogue_player").start(params, level, true)
-	#get_node("dialog_player").start(params, level)
 
 func _process(time):
 	check_screen()
