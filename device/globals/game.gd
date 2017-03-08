@@ -39,10 +39,11 @@ func object_exit_scene(name):
 	objects.erase(name)
 
 func say(params, level):
-	get_node("speech_player").say(params, level)
+	get_node("speech_dialogue_player").start(params, level, false)
 
 func dialog(params, level):
-	get_node("dialog_player").start(params, level)
+	get_node("speech_dialogue_player").start(params, level, true)
+	#get_node("dialog_player").start(params, level)
 
 func _process(time):
 	check_screen()

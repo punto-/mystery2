@@ -1,4 +1,4 @@
-func start(params, level):
+func start(params, level, is_choice):
 	var type
 	if params.size() < 2 || !has_resource(params[1]):
 		type = "default"
@@ -7,14 +7,11 @@ func start(params, level):
 
 	type = type + Globals.get("platform/dialog_type_suffix")
 
-	printt("******* instancing dialog ", type)
-
 	var inst = get_resource(type).instance()
 	get_node("/root/game").hud_layer.add_child(inst)
 	get_node("/root/game").add_hud(inst)
 
-	# check the type and instance it here?
-	inst.call_deferred("start", params, level)
+	inst.call_deferred("start", params, level, is_choice)
 
 func _ready():
 	add_to_group("dialog_dialog")
