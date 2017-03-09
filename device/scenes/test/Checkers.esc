@@ -3,15 +3,15 @@
 debug "this is the 'use' event for Checkers the Cat!"
 
 > [!spoke_to_Cat]
-	say Checkers "If I said I DID do it, would you let me out of here?"
+	say Checkers "If I said I DID do it, would you let me out of here?" Checkers_Sad
 	set_global spoke_to_Cat true
 
 > 
 	?
 		- "Talk to Checkers" [spoke_to_Cat]
 			say Checkers "Don't you know? All cats work for Fat Cat..."
-			say player "So you're saying you work for an underground crime lord? ... This is a test for length"
-			say Checkers "Um...!!"
+			say player "So you're saying you work for an underground crime lord? ... This is a test for length ... Let's hope this wraps around... La la la... Now this is a test to see how far we can go down."
+			say Checkers "Um...!!" Checkers_Sad
 			say Checkers "Well, I never did claim to be a cat!"
 			set_global c/all_cats_work_for_Fat_Cat true
 

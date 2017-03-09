@@ -2,7 +2,7 @@
 
 [ext_resource path="res://globals/speech_dialogue_instance.gd" type="Script" id=1]
 [ext_resource path="res://scenes/test/DialogueBackground.png" type="Texture" id=2]
-[ext_resource path="res://scenes/test/sample_portrait.png" type="Texture" id=3]
+[ext_resource path="res://character/avatars/default.png" type="Texture" id=3]
 [ext_resource path="res://ui/dialogue_default.fnt" type="BitmapFont" id=4]
 
 [sub_resource type="Animation" id=1]
@@ -186,14 +186,14 @@ params/modulate = Color( 0, 0, 0, 1 )
 
 [node name="label" type="Label" parent="item/button"]
 
-rect/min_size = Vector2( 600, 300 )
+rect/min_size = Vector2( 600, 33 )
 focus/ignore_mouse = true
 focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 3
 margin/left = 0.0
 margin/top = 0.0
-margin/right = 600.0
+margin/right = 870.0
 margin/bottom = 300.0
 custom_fonts/font = ExtResource( 4 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )

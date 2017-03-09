@@ -11,11 +11,14 @@ var context
 var cmd
 
 var is_choice
+var has_multiple_choices
+var choice_offset = 25
+var avatar_scale = Vector2(.25, .25)
 
 var container
 var item
-var label
 var button
+var label
 
 var animation
 var ready = false
@@ -42,8 +45,8 @@ func selected(n):
 func add_speech(text, id):
 	var it = item.duplicate()
 	var but = it.get_node("button")
-	var label = but.get_node("label")
-	label.set_text(text)
+	var lab = but.get_node("label")
+	lab.set_text(text)
 
 	but.connect("pressed", self, "selected", [id])
 
@@ -52,24 +55,54 @@ func add_speech(text, id):
 		var size = it.get_custom_minimum_size()
 		size.y = size.y * height_ratio
 		but.set_size(size)
+		handle_choice_offsets(but, lab, choice_offset)
 
 	container.add_child(it)
+	
+func handle_choice_offsets(but, lab, offset):
+	if has_multiple_choices:
+		var pos_offset = Vector2(0, offset)
+		var new_pos = but.get_pos() + pos_offset
+		but.set_pos(new_pos)
+		
+		new_pos = lab.get_pos() + pos_offset
+		lab.set_pos(new_pos)
 
 func add_choices():
 	var i = 0
+	has_multiple_choices = false
 	for choice in cmd:
 		add_speech(choice.params[0], i)
 		i += 1
+		has_multiple_choices = true
+
+func create_new_avatar(avatar, avatar_id):
+	var avatar_node = Sprite.new()
+	avatar_node.set_texture(avatar)
+	avatar_node.set_name(avatar_id)
+	avatar_node.set_scale(avatar_scale)
+	return avatar_node
 
 func display_portrait(avatar_id):
 	if has_node("anchor/avatars"):
-		var avatar = "default"
-		if avatar_id != null:
-			avatar = avatar_id
+		
+		var avatar_path = "res://character/avatars/"
 		var avatars = get_node("anchor/avatars")
+		var avatar
+		
+		if avatar_id != null:
+			avatar = load(avatar_path + avatar_id + ".png")
+			if !avatars.has_node(avatar_id):
+				var avatar_node = create_new_avatar(avatar, avatar_id)
+				avatars.add_child(avatar_node)
+		elif is_choice:
+			avatar_id = null
+		else:
+			avatar_id = "default"
+		
 		for i in range(avatars.get_child_count()):
 			var c = avatars.get_child(i)
-			if c.get_name() == avatar:
+			if c.get_name() == avatar_id:
 				c.show()
 			else:
 				c.hide()
@@ -86,7 +119,11 @@ func start(params, p_context, p_is_choice):
 		character = vm.game.get_object(params[0])
 		character.set_speaking(true)
 		add_speech(params[1], 0)
-		display_portrait(null)
+	
+	var avatar_id = null
+	if(params.size() > 2):
+		avatar_id = params[2]
+	display_portrait(avatar_id)
 	
 	ready = false
 	animation.play("show_basic")
