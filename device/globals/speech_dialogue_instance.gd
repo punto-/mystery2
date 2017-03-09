@@ -61,6 +61,19 @@ func add_choices():
 		add_speech(choice.params[0], i)
 		i += 1
 
+func display_portrait(avatar_id):
+	if has_node("anchor/avatars"):
+		var avatar = "default"
+		if avatar_id != null:
+			avatar = avatar_id
+		var avatars = get_node("anchor/avatars")
+		for i in range(avatars.get_child_count()):
+			var c = avatars.get_child(i)
+			if c.get_name() == avatar:
+				c.show()
+			else:
+				c.hide()
+
 func start(params, p_context, p_is_choice):
 	context = p_context
 	dialog_task = vm.task_current
@@ -73,6 +86,7 @@ func start(params, p_context, p_is_choice):
 		character = vm.game.get_object(params[0])
 		character.set_speaking(true)
 		add_speech(params[1], 0)
+		display_portrait(null)
 	
 	ready = false
 	animation.play("show_basic")

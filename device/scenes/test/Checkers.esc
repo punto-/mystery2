@@ -10,7 +10,7 @@ debug "this is the 'use' event for Checkers the Cat!"
 	?
 		- "Talk to Checkers" [spoke_to_Cat]
 			say Checkers "Don't you know? All cats work for Fat Cat..."
-			say player "So you're saying you work for an underground crime lord?"
+			say player "So you're saying you work for an underground crime lord? ... This is a test for length"
 			say Checkers "Um...!!"
 			say Checkers "Well, I never did claim to be a cat!"
 			set_global c/all_cats_work_for_Fat_Cat true
