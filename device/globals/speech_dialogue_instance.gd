@@ -7,12 +7,13 @@ export var mouse_exit_shadow_color = Color(1,1,1)
 
 var vm
 var character
+var character_name
 var context
 var cmd
 
 var is_choice
 var has_multiple_choices
-var choice_offset = 25
+var choice_offset = 15
 var avatar_scale = Vector2(.25, .25)
 
 var container
@@ -55,17 +56,15 @@ func add_speech(text, id):
 		var size = it.get_custom_minimum_size()
 		size.y = size.y * height_ratio
 		but.set_size(size)
-		handle_choice_offsets(but, lab, choice_offset)
+		handle_choice_offsets(it, but, lab, choice_offset, id)
 
 	container.add_child(it)
 	
-func handle_choice_offsets(but, lab, offset):
+func handle_choice_offsets(it, but, lab, offset, i):
 	if has_multiple_choices:
-		var pos_offset = Vector2(0, offset)
-		var new_pos = but.get_pos() + pos_offset
+		var new_pos = it.get_pos() + (Vector2(0, offset) * i)
+		it.set_pos(new_pos)
 		but.set_pos(new_pos)
-		
-		new_pos = lab.get_pos() + pos_offset
 		lab.set_pos(new_pos)
 
 func add_choices():
@@ -116,6 +115,7 @@ func start(params, p_context, p_is_choice):
 		cmd = params[0]
 		add_choices()
 	else:
+		character_name = params[0]
 		character = vm.game.get_object(params[0])
 		character.set_speaking(true)
 		add_speech(params[1], 0)
@@ -124,6 +124,9 @@ func start(params, p_context, p_is_choice):
 	if(params.size() > 2):
 		avatar_id = params[2]
 	display_portrait(avatar_id)
+	
+	if(character_name != null):
+		get_node("anchor/name").set_text(character_name)
 	
 	ready = false
 	animation.play("show_basic")

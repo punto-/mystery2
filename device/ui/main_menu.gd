@@ -1,123 +1,62 @@
 extends Control
 
 var vm
-var root
-var confirm_popup = null
-var labels = []
+var game
 
-func load_autosave():
-	vm.load_autosave()
-
-func can_continue():
-	return (root.get_current_scene() extends preload("res://globals/scene.gd")) || vm.save_data.autosave_available()
-
-func button_clicked():
-	# play a clicking sound here?
-	pass
-
-func newgame_pressed():
-	button_clicked()
-	if root.get_current_scene() extends preload("res://globals/scene.gd"):
-		confirm_popup = get_node("/root/main").load_menu("res://ui/confirm_popup.tscn")
-		confirm_popup.start("UI_NEW_GAME_CONFIRM",self,"start_new_game")
-	else:
-		start_new_game(true)
-		
-func start_new_game(p_confirm):
-	if !p_confirm:
-		return
-	vm.load_file("res://game/game.esc")
-
-func continue_pressed():
-	button_clicked()
-	if root.get_current_scene() extends preload("res://globals/scene.gd"):
-		root.menu_collapse()
-	else:
-		if vm.continue_enabled:
-			load_autosave()
-
-func save_pressed():
-	button_clicked()
-	get_node("/root/main").load_menu(Globals.get("ui/savegames"))
-
-func settings_pressed():
-	button_clicked()
-	root.load_menu(Globals.get("ui/settings"))
-
-func credits_pressed():
-	button_clicked()
-	root.load_menu(Globals.get("ui/credits"))
-
-func close():
-	root.menu_close(self)
-	queue_free()
+var root_string = "/root/"
+var scene_path = "res://scenes/test/" 
+var scene_name
 
 func input(event):
-	if event.is_pressed() && !event.is_echo() && event.is_action("menu_request"):
-		if root.get_current_scene() extends preload("res://globals/scene.gd"):
-			close()
-
-func menu_collapsed():
-	close()
-
-func _on_exit_pressed():
-	button_clicked()
-	confirm_popup = get_node("/root/main").load_menu("res://ui/confirm_popup.tscn")
-	confirm_popup.start("UI_QUIT_CONFIRM",self,"_quit_game")
-	
-func _quit_game(p_confirm):
-	if !p_confirm:
+	if event.is_echo():
 		return
-	get_tree().quit()
+	if !event.is_pressed():
+		return
 
-func language_changed():
-	for l in labels:
-		l.set_text(l.get_name())
+func new_pressed():
+	vm.clear()
+	var events = vm.compile("res://game/game.esc")
+	vm.run_event(events["load"], {})
 
-func _find_labels(p = null):
-	if p == null:
-		p = self
-	if p.is_type("Label"):
-		labels.push_back(p)
-	for i in range(0, p.get_child_count()):
-		_find_labels(p.get_child(i))
+func load_pressed():
+	var save = File.new()
+	if !save.file_exists("user://savegame.save"):
+		return
 
-func set_continue_button():
-	if vm.continue_enabled && can_continue():
-		get_node("continue").set_disabled(false)
-		#get_node("continue").show()
-	else:
-		get_node("continue").set_disabled(true)
-		#get_node("continue").hide()
+	var nodes = get_tree().get_nodes_in_group("save")
+	var line = {}
 
+	var err = save.open_encrypted_with_pass("user://savegame.save", File.READ, "password")
 
-func _on_language_selected(lang):
-	vm.settings.text_lang=lang
-	TranslationServer.set_locale(vm.settings.text_lang)
-	get_tree().call_group(0, "ui", "language_changed")
-	vm.save_settings()
+	while(!save.eof_reached()):
+		line.parse_json(save.get_line())
+		var scene = line["parent"]
+		scene_name = scene_path + scene + ".tscn"
+		
+		game.change_scene([scene_name], vm.level.current_context)
+		
+		var curr_scene = game.current_scene
+		
+		var obj
+		if(curr_scene.has_node("player")):
+			obj = curr_scene.get_node("player")
+		else:
+			obj = load(line["file"]).instance()
+			curr_scene.add_child(obj)
+		
+		obj.set_pos(Vector2(line["pos_x"], line["pos_y"]))
+		#for i in line.keys():
+		#	obj.set(i, line[i])
+	
+	save.close()
 
 func _ready():
-	get_node("new_game").connect("pressed", self, "newgame_pressed")
-	get_node("continue").connect("pressed", self, "continue_pressed")
-	#get_node("save").connect("pressed", self, "save_pressed")
-	get_node("exit").connect("pressed", self, "_on_exit_pressed")
-	#get_node("settings").connect("pressed", self, "settings_pressed")
-	#get_node("credits").connect("pressed",self,"credits_pressed")
+	get_node("new_game").connect("pressed", self, "new_pressed")
+	get_node("load_game").connect("button_down", self, "load_pressed")
+	
 	vm = get_tree().get_root().get_node("vm")
+	game = get_tree().get_root().get_node("game")
+
 	set_process_input(true)
-	#get_node("/root/main").set_current_scene(self)
-
-	root = get_node("/root/main")
-	root.menu_open(self)
-
-	_find_labels()
 
 	add_to_group("ui")
-
-	call_deferred("set_continue_button")
-
-	if !Globals.get("platform/exit_button"):
-		get_node("exit").hide()
-
-

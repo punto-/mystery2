@@ -59,6 +59,10 @@ func _input(event):
 			if event.is_pressed() && !event.is_echo():
 				inventory_open()
 
+		if event.is_action("menu_request"):
+			if event.is_pressed() && !event.is_echo():
+				menu_open()
+
 		elif current_player != null:
 			current_player.input(event)
 
@@ -144,6 +148,9 @@ func accuse(character_name, context):
 	
 	vm.finished(context, false)
 
+func menu_open():
+	hud_layer.get_node("menu").open()
+
 func inventory_open():
 	hud_layer.get_node("inventory").open()
 	
@@ -158,7 +165,7 @@ func change_scene(params, context):
 	print("change scene to ", params[0])
 	# remove current scene
 	if current_scene != null:
-		current_scene.free()
+		current_scene.queue_free()
 		current_scene = null
 
 	var res = res_cache.get_resource(params[0])
@@ -179,7 +186,7 @@ func change_scene(params, context):
 
 func start_new_game():
 	vm.clear()
-	var events = vm.compile("res://game/game.esc")
+	var events = vm.compile("res://game/main_menu.esc")
 	vm.run_event(events["load"], {})
 
 func set_current_scene(p_scene):

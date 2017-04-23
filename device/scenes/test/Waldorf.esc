@@ -26,7 +26,7 @@ debug "this is the 'use' event for Waldorf!"
 						say Waldorf "If you insist..."
 						stop
 					- "Tell me more about the suspect."
-						say player "Where is this "creature" that you think stole your heirloom?"
+						say player "Where is this 'creature' that you think stole your heirloom?"
 						set_global c/checkers_is_cat true
 						stop
 

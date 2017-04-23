@@ -328,7 +328,6 @@ func close():
 	hide()
 	game.remove_hud(self)
 
-
 func open():
 	show()
 	game.add_hud(self)

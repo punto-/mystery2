@@ -155,6 +155,21 @@ transform/scale = Vector2( 4.52689, 3.88018 )
 transform/scale = Vector2( 0.25, 0.25 )
 texture = ExtResource( 3 )
 
+[node name="name" type="Label" parent="anchor"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -858.0
+margin/top = -138.0
+margin/right = -818.0
+margin/bottom = -124.0
+custom_fonts/font = ExtResource( 4 )
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
 [node name="item" type="Control" parent="."]
 
 rect/min_size = Vector2( 800, 29 )
