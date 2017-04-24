@@ -213,6 +213,9 @@ func check_global(name):
 func get_global(name):
 	return (name in globals) && globals[name]
 
+func get_all_globals():
+	return globals
+
 func set_global(name, val):
 	globals[name] = val
 	emit_signal("global_changed", name)

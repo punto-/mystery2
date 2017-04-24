@@ -183,15 +183,11 @@ func input(event):
 		close()
 		emit_signal("inventory_closed")
 
-	#if event.is_action("use"):
-		#interact()
-
 	if event.is_action("equip"):
 		equip()
 
 	if event.is_action("combine"):
 		combine()
-
 
 func _get_current():
 	var id = null

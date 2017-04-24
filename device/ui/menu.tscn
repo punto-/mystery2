@@ -26,7 +26,41 @@ margin/top = 89.0
 margin/right = 1029.0
 margin/bottom = 614.0
 
-[node name="save_game" type="Button" parent="."]
+[node name="quit_to_menu" type="Button" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 498.0
+margin/top = 458.0
+margin/right = 798.0
+margin/bottom = 558.0
+custom_fonts/font = ExtResource( 2 )
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "QUIT TO MENU"
+flat = false
+
+[node name="load_game_menu" type="Button" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 494.0
+margin/top = 314.0
+margin/right = 794.0
+margin/bottom = 414.0
+custom_fonts/font = ExtResource( 2 )
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "LOAD GAME"
+flat = false
+
+[node name="save_game_menu" type="Button" parent="."]
 
 focus/ignore_mouse = false
 focus/stop_mouse = true

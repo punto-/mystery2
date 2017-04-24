@@ -17,6 +17,8 @@ var current_player
 var equipped
 var failures = 0
 
+var persist_scene = false
+
 var vm
 
 func register_object(name, val):
@@ -36,7 +38,8 @@ func get_object(name):
 	return objects[name]
 
 func object_exit_scene(name):
-	objects.erase(name)
+	if name != "player" and !persist_scene:
+		objects.erase(name)
 
 func say(params, level):
 	get_node("speech_dialogue_player").start(params, level, false)
@@ -62,9 +65,6 @@ func _input(event):
 		if event.is_action("menu_request"):
 			if event.is_pressed() && !event.is_echo():
 				menu_open()
-
-		elif current_player != null:
-			current_player.input(event)
 
 func prompt_judge():
 	#TO-DO: trigger judge dialogue/cutscene
@@ -182,7 +182,6 @@ func change_scene(params, context):
 	set_current_scene(scene)
 
 	vm.finished(context, false)
-
 
 func start_new_game():
 	vm.clear()

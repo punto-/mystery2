@@ -43,24 +43,23 @@ extents = Vector2( 10, 10 )
 custom_solver_bias = 0.0
 extents = Vector2( 11.9117, 10.4687 )
 
-[sub_resource type="RectangleShape2D" id=10]
+[sub_resource type="RectangleShape2D" id=7]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10, 10 )
 
-[sub_resource type="RectangleShape2D" id=7]
+[sub_resource type="RectangleShape2D" id=8]
 
 custom_solver_bias = 0.0
 extents = Vector2( 46.7237, 46.0311 )
 
-[sub_resource type="RectangleShape2D" id=8]
+[sub_resource type="RectangleShape2D" id=9]
 
 custom_solver_bias = 0.0
 extents = Vector2( 70.6197, 70.9025 )
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=10]
 
-resource/name = "JudgeEnter"
 length = 1.0
 loop = false
 step = 0.1
@@ -85,11 +84,7 @@ transform/pos = Vector2( 1005.13, 427.325 )
 transform/scale = Vector2( 6.0117, 7.94829 )
 texture = ExtResource( 2 )
 
-[node name="Money" type="Node" parent="."]
-
-editor/display_folded = true
-
-[node name="Sprite" type="Sprite" parent="Money" groups=[
+[node name="money" type="Sprite" parent="." groups=[
 "Interactable",
 ]]
 
@@ -102,7 +97,7 @@ global_id = "money"
 talk_animation = "talk"
 events_path = "res://scenes/test/money.esc"
 
-[node name="Area2D" type="Area2D" parent="Money/Sprite"]
+[node name="Area2D" type="Area2D" parent="money"]
 
 input/pickable = true
 shapes/0/shape = SubResource( 1 )
@@ -113,7 +108,7 @@ gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Money/Sprite/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="money/Area2D"]
 
 transform/pos = Vector2( 1.0519, -3.11012 )
 transform/scale = Vector2( 10.574, 6.87028 )
@@ -121,7 +116,7 @@ shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
 
-[node name="StaticBody2D" type="StaticBody2D" parent="Money/Sprite"]
+[node name="StaticBody2D" type="StaticBody2D" parent="money"]
 
 input/pickable = false
 shapes/0/shape = SubResource( 2 )
@@ -134,7 +129,7 @@ constant_angular_velocity = 0.0
 friction = 1.0
 bounce = 0.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Money/Sprite/StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="money/StaticBody2D"]
 
 transform/pos = Vector2( -1.52087, -1.63988 )
 transform/scale = Vector2( 3.30791, 1.78119 )
@@ -168,8 +163,9 @@ events_path = "res://scenes/test/map_vendor.esc"
 transform/pos = Vector2( 1065.7, 479.224 )
 texture = ExtResource( 5 )
 
-[node name="Berries" type="Sprite" parent="Bush"]
+[node name="berries" type="Sprite" parent="."]
 
+transform/pos = Vector2( 1065.7, 479.224 )
 texture = ExtResource( 6 )
 script/script = ExtResource( 4 )
 active = true
@@ -177,7 +173,7 @@ global_id = "berries"
 talk_animation = "talk"
 events_path = "res://scenes/test/berries.esc"
 
-[node name="StaticBody2D" type="StaticBody2D" parent="Bush/Berries"]
+[node name="StaticBody2D" type="StaticBody2D" parent="berries"]
 
 input/pickable = false
 shapes/0/shape = SubResource( 3 )
@@ -190,14 +186,14 @@ constant_angular_velocity = 0.0
 friction = 1.0
 bounce = 0.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Bush/Berries/StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="berries/StaticBody2D"]
 
 transform/pos = Vector2( 3.70123, 3.70123 )
 shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
 
-[node name="Area2D" type="Area2D" parent="Bush/Berries"]
+[node name="Area2D" type="Area2D" parent="berries"]
 
 input/pickable = true
 shapes/0/shape = SubResource( 4 )
@@ -208,7 +204,7 @@ gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Bush/Berries/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="berries/Area2D"]
 
 shape = SubResource( 4 )
 trigger = false
@@ -229,9 +225,7 @@ transform/scale = Vector2( 4.91631, 9.81686 )
 
 transform/pos = Vector2( 0, 0 )
 
-[node name="Character1" type="Node" parent="."]
-
-[node name="Waldorf" type="Sprite" parent="Character1"]
+[node name="Waldorf" type="Sprite" parent="."]
 
 transform/pos = Vector2( 211.865, 132.963 )
 transform/scale = Vector2( 0.5, 0.5 )
@@ -242,7 +236,7 @@ global_id = "Waldorf"
 talk_animation = "talk"
 events_path = "res://scenes/test/Waldorf.esc"
 
-[node name="StaticBody2D" type="StaticBody2D" parent="Character1/Waldorf"]
+[node name="StaticBody2D" type="StaticBody2D" parent="Waldorf"]
 
 input/pickable = false
 shapes/0/shape = SubResource( 5 )
@@ -255,7 +249,7 @@ constant_angular_velocity = 0.0
 friction = 1.0
 bounce = 0.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Character1/Waldorf/StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Waldorf/StaticBody2D"]
 
 transform/pos = Vector2( 0.615204, -105.022 )
 transform/scale = Vector2( 10.4644, 12.5573 )
@@ -263,7 +257,7 @@ shape = SubResource( 5 )
 trigger = false
 _update_shape_index = 0
 
-[node name="Area2D" type="Area2D" parent="Character1/Waldorf"]
+[node name="Area2D" type="Area2D" parent="Waldorf"]
 
 transform/pos = Vector2( -6.13779, -13.9299 )
 transform/scale = Vector2( 4.71879, 6.75934 )
@@ -276,7 +270,7 @@ gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Character1/Waldorf/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Waldorf/Area2D"]
 
 transform/pos = Vector2( 0.063839, -0.572497 )
 transform/scale = Vector2( 4.45378, 5.18691 )
@@ -284,22 +278,20 @@ shape = SubResource( 6 )
 trigger = false
 _update_shape_index = 0
 
-[node name="Character2" type="Node" parent="."]
-
-[node name="Checkers" type="Sprite" parent="Character2"]
+[node name="Checkers" type="Sprite" parent="."]
 
 transform/pos = Vector2( 861.114, 111.331 )
 texture = ExtResource( 9 )
 script/script = ExtResource( 4 )
 active = true
-global_id = "checkers"
+global_id = "Checkers"
 talk_animation = "talk"
 events_path = "res://scenes/test/Checkers.esc"
 
-[node name="StaticBody2D" type="StaticBody2D" parent="Character2/Checkers"]
+[node name="StaticBody2D" type="StaticBody2D" parent="Checkers"]
 
 input/pickable = false
-shapes/0/shape = SubResource( 10 )
+shapes/0/shape = SubResource( 7 )
 shapes/0/transform = Matrix32( 7.07837, 0, 0, 11.0982, 0.713497, 4.41144 )
 shapes/0/trigger = false
 collision/layers = 1
@@ -309,21 +301,19 @@ constant_angular_velocity = 0.0
 friction = 1.0
 bounce = 0.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Character2/Checkers/StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Checkers/StaticBody2D"]
 
 transform/pos = Vector2( 0.713497, 4.41144 )
 transform/scale = Vector2( 7.07837, 11.0982 )
-shape = SubResource( 10 )
+shape = SubResource( 7 )
 trigger = false
 _update_shape_index = 0
 
-[node name="SceneOfCrime" type="Node" parent="."]
-
-[node name="AmuletPillow" type="Sprite" parent="SceneOfCrime"]
+[node name="AmuletPillow" type="Sprite" parent="."]
 
 texture = ExtResource( 10 )
 
-[node name="CatHair" type="Sprite" parent="SceneOfCrime/AmuletPillow"]
+[node name="cathair" type="Sprite" parent="."]
 
 texture = ExtResource( 11 )
 modulate = Color( 0.308594, 0.241089, 0.241089, 1 )
@@ -333,10 +323,10 @@ global_id = "cathair"
 talk_animation = "talk"
 events_path = "res://scenes/test/CatHair.esc"
 
-[node name="StaticBody2D" type="StaticBody2D" parent="SceneOfCrime/AmuletPillow/CatHair"]
+[node name="StaticBody2D" type="StaticBody2D" parent="cathair"]
 
 input/pickable = false
-shapes/0/shape = SubResource( 7 )
+shapes/0/shape = SubResource( 8 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
 collision/layers = 1
@@ -346,16 +336,16 @@ constant_angular_velocity = 0.0
 friction = 1.0
 bounce = 0.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SceneOfCrime/AmuletPillow/CatHair/StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="cathair/StaticBody2D"]
 
-shape = SubResource( 7 )
+shape = SubResource( 8 )
 trigger = false
 _update_shape_index = 0
 
-[node name="Area2D" type="Area2D" parent="SceneOfCrime/AmuletPillow/CatHair"]
+[node name="Area2D" type="Area2D" parent="cathair"]
 
 input/pickable = true
-shapes/0/shape = SubResource( 8 )
+shapes/0/shape = SubResource( 9 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -363,9 +353,9 @@ gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SceneOfCrime/AmuletPillow/CatHair/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="cathair/Area2D"]
 
-shape = SubResource( 8 )
+shape = SubResource( 9 )
 trigger = false
 _update_shape_index = 0
 
@@ -384,7 +374,7 @@ events_path = "res://scenes/test/Judge.esc"
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/JudgeEnter = SubResource( 9 )
+anims/JudgeEnter = SubResource( 10 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]

@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=1]
+[gd_scene load_steps=5 format=1]
 
 [ext_resource path="res://scenes/test/player.gd" type="Script" id=1]
 [ext_resource path="res://scenes/test/PlayerSprite.png" type="Texture" id=2]
-[ext_resource path="res://globals/item.gd" type="Script" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -59,11 +58,6 @@ drag_margin/bottom = 0.2
 [node name="Sprite" type="Sprite" parent="."]
 
 texture = ExtResource( 2 )
-script/script = ExtResource( 3 )
-active = true
-global_id = "player"
-talk_animation = "talk"
-events_path = ""
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 

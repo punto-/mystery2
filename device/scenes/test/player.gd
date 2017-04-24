@@ -19,8 +19,8 @@ func _ready():
 func _fixed_process(delta):
 	if(vm.can_interact()):
 		move_player()
-		
-func input(event):
+
+func _input(event):
 	if(vm.can_interact() and event.is_action_pressed("use")):
 		var bodies = area.get_overlapping_bodies()
 		for body in bodies:
